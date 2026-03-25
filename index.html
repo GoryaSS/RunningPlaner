@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🏃 RunPlan — Мій шлях до напівмарафону</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ═══ SETUP SCREEN ═══ -->
+<div id="setup-screen">
+  <div class="setup-bg"></div>
+  <div class="setup-card">
+    <div class="setup-badge">🏃 Початківець → Напівмарафон</div>
+    <div class="setup-title">ТВІЙ<br><span>ПЛАН</span><br>БІГУ</div>
+    <p class="setup-sub">16 тижнів · 3 тренування/тиждень · від 5 км до 21 км</p>
+
+    <div class="form-group">
+      <label class="form-label">📅 Дата першого тренування</label>
+      <input type="date" class="form-input" id="start-date">
+    </div>
+    <div class="form-group">
+      <label class="form-label">🏁 Дата фінального забігу (напівмарафон)</label>
+      <input type="date" class="form-input" id="end-date">
+    </div>
+
+    <div class="events-section">
+      <label class="form-label">🎯 Проміжні події (необов'язково)</label>
+      <div class="events-list" id="events-list"></div>
+      <button class="btn-add-event" onclick="addEventRow()">+ Додати проміжну подію</button>
+    </div>
+
+    <button class="btn-start" onclick="startPlan()">ПОЧАТИ ТРЕНУВАННЯ →</button>
+  </div>
+</div>
+
+<!-- ═══ APP SCREEN ═══ -->
+<div id="app-screen">
+  <div class="app-bg"></div>
+
+  <nav>
+    <div class="nav-logo">RUN<span>PLAN</span></div>
+    <div class="nav-tabs">
+      <button class="nav-tab active" onclick="switchView('dashboard')">Dashboard</button>
+      <button class="nav-tab" onclick="switchView('plan')">Весь план</button>
+      <button class="nav-tab" onclick="switchView('stats')">Статистика</button>
+    </div>
+    <div class="nav-actions">
+      <button class="nav-btn" onclick="resetApp()">⚙ Скинути</button>
+    </div>
+  </nav>
+
+  <div class="container">
+
+    <!-- DASHBOARD VIEW -->
+    <div id="view-dashboard">
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-label">Тиждень</div>
+          <div class="stat-value stat-accent" id="s-week">1</div>
+          <div class="stat-sub">з 16 тижнів</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Виконано</div>
+          <div class="stat-value" id="s-done">0</div>
+          <div class="stat-sub">тренувань</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Кілометри</div>
+          <div class="stat-value" id="s-km">0</div>
+          <div class="stat-sub">км пробіжено</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">До фіналу</div>
+          <div class="stat-value" id="s-days">—</div>
+          <div class="stat-sub">днів</div>
+        </div>
+      </div>
+
+      <div class="progress-section">
+        <div class="progress-header">
+          <div class="progress-title">Загальний прогрес</div>
+          <div class="progress-pct" id="prog-pct">0%</div>
+        </div>
+        <div class="progress-bar-wrap">
+          <div class="progress-bar-fill" id="prog-bar" style="width:0%"></div>
+        </div>
+        <div class="events-markers" id="events-markers"></div>
+      </div>
+
+      <div class="current-week-card">
+        <div class="section-title" id="week-title">ТИЖДЕНЬ 1 — ПОЧАТОК</div>
+        <div class="workouts-grid" id="current-workouts"></div>
+      </div>
+    </div>
+
+    <!-- PLAN VIEW -->
+    <div id="view-plan">
+      <div id="all-weeks"></div>
+    </div>
+
+    <!-- STATS VIEW -->
+    <div id="view-stats">
+      <div class="stats-detail-grid">
+        <div class="stat-big-card">
+          <div class="stat-label">Всього кілометрів за планом</div>
+          <div class="stat-value stat-accent" id="sv-total">0 км</div>
+          <div class="stat-sub" style="margin-top:4px">з яких виконано <span id="sv-done-km">0 км</span></div>
+        </div>
+        <div class="stat-big-card">
+          <div class="stat-label">Тренувань виконано</div>
+          <div class="stat-value stat-accent" id="sv-workouts">0 / 48</div>
+          <div class="stat-sub" style="margin-top:4px" id="sv-streak">Серія: 0 поспіль ✨</div>
+        </div>
+      </div>
+      <div class="stat-big-card" style="margin-bottom:1rem">
+        <div class="stat-label">Км по тижнях</div>
+        <div class="kms-chart" id="kms-chart"></div>
+        <div style="display:flex;gap:12px;margin-top:12px;font-size:11px;color:var(--text2)">
+          <span>🟧 Виконано</span><span style="opacity:.4">▪ Заплановано</span>
+        </div>
+      </div>
+      <div class="stat-big-card">
+        <div class="stat-label">Тип тренувань</div>
+        <div id="type-breakdown" style="margin-top:12px;display:flex;flex-direction:column;gap:10px"></div>
+      </div>
+    </div>
+
+  </div><!-- /.container -->
+</div><!-- /#app-screen -->
+
+<div class="toast" id="toast"></div>
+
+<script src="app.js"></script>
+</body>
+</html>
